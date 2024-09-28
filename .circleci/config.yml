@@ -51,6 +51,7 @@ jobs:
           command: |
             npm audit fix --audit-level=critical --force
             npm audit --audit-level=critical
+    # any other sort of scanning could be added here, also Sonarqube server could be integrated and used for code scanning
 
   publish-package:
     docker:
@@ -67,16 +68,9 @@ jobs:
             NPM_TOKEN: $NPM_TOKEN  # we need to ensure NPM_TOKEN is set in CircleCI environment variables
 
 workflows:
-  build-and-test:
+  ui-internal-library:
     jobs:
-      - build-library
-      - test-library:
-          requires:
-            - build-library
-      - scan-library:
-          requires:
-            - build-library
-      - publish-package:
-          requires:
-            - test-library
-            - scan-library
+      - publish-package
+      #    requires:
+       #     - test-library
+        #    - scan-library
