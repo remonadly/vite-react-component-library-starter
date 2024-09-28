@@ -52,8 +52,7 @@ jobs:
     # any other sort of scanning could be added here, also Sonarqube server could be integrated and used for code scanning
 
   publish-package:
-    docker:
-      - image: circleci/node:14
+    executor: node/default
     steps:
       - checkout
       - run:
