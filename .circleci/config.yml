@@ -60,7 +60,7 @@ jobs:
       - checkout
       - run:
           name: Install Dependencies
-          command: npm install
+          command: npm ci
       - run:
           name: Publish to npm
           command: npm publish
@@ -70,7 +70,7 @@ jobs:
 workflows:
   ui-internal-library:
     jobs:
-      - publish-package
+      - publish-package:
       #    requires:
        #     - test-library
         #    - scan-library
