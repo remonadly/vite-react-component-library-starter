@@ -60,7 +60,7 @@ jobs:
       - checkout
       - run:
           name: Install Dependencies
-          command: npm ci
+          command: npm install
       - run:
           name: Publish to npm
           command: npm publish
