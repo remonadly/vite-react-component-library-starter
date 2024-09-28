@@ -57,3 +57,5 @@ workflows:
     # - deploy:
     #     requires:
     #       - build-node
+    #test
+    
