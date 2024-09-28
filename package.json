@@ -1,6 +1,6 @@
 {
   "name": "vite-react-component-library-starter",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "A template for creating React component libraries with Vite, Tailwind, and Storybook.",
   "author": "rayyamhk",
   "license": "MIT",
