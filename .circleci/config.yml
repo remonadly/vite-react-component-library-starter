@@ -37,6 +37,7 @@ jobs:
       - run:
           name: Run tests
           command: npm run test
+    # any other sort of tests could be added here 
 
   scan-library:
     # scanning
@@ -51,6 +52,19 @@ jobs:
             npm audit fix --audit-level=critical --force
             npm audit --audit-level=critical
 
+  publish-package:
+    docker:
+      - image: circleci/node:14
+    steps:
+      - checkout
+      - run:
+          name: Install Dependencies
+          command: npm install
+      - run:
+          name: Publish to npm
+          command: npm publish
+          environment:
+            NPM_TOKEN: $NPM_TOKEN  # we need to ensure NPM_TOKEN is set in CircleCI environment variables
 
 workflows:
   build-and-test:
@@ -62,8 +76,3 @@ workflows:
       - scan-library:
           requires:
             - build-library
-
-    # - deploy:
-    #     requires:
-    #       - build-node
-    #test
