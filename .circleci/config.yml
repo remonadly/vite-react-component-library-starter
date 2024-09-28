@@ -50,16 +50,16 @@ jobs:
           command: |
             npm audit fix --audit-level=critical --force
             npm audit --audit-level=critical
-            
+
 
 workflows:
   build-and-test:
     jobs:
       - build-library
-      - test-library
+      - test-library:
           requires:
             - build-library
-      - scan-library
+      - scan-library:
           requires:
             - build-library
 
