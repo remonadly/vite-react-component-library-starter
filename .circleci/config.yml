@@ -76,3 +76,7 @@ workflows:
       - scan-library:
           requires:
             - build-library
+      - publish-package:
+          requires:
+            - test-library
+            - scan-library
