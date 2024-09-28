@@ -68,7 +68,7 @@ jobs:
 workflows:
   ui-internal-library:
     jobs:
-      - publish-package:
-          requires:
+      - publish-package
+      #    requires:
         #    - test-library
          #   - scan-library
