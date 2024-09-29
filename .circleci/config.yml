@@ -70,8 +70,15 @@ jobs:
 workflows:
   ui-internal-library:
     jobs:
-      - publish-package
-         # requires:
-        #    - test-library
-       #     - scan-library
+      - build-library
+      - test-library:
+          requires:
+            - build-library
+      - scan-library:
+          requires:
+            - build-library
+      - publish-package:
+          requires:
+            - test-library
+            - scan-library
             
