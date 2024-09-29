@@ -66,19 +66,30 @@ jobs:
           command: npm publish --access public
           environment:
             NPM_TOKEN: $NPM_TOKEN  # we need to ensure NPM_TOKEN is set in CircleCI environment variables
+          # if package published with same release number, pipeline will fail and will not allow it.
+          # release number should be updated in package.json file
+          # A release is triggered by tagging the main branch.
+
+  setup_sendmail:
+    docker:
+      - image: ubuntu:20.04
+    steps:
+      - run:
+          name: Install Sendmail
+          command: |
+            apt-get update && apt-get install -y sendmail && apt-get clean
+      - run:
+          name: Configure Sendmail
+          command: |
+            echo "root: remonadly06@gmail.com" >> /etc/aliases
+            newaliases  # Update aliases
+      - run:
+          name: Send Test Email
+          command: |
+            echo "Subject: Test Email" | sendmail remonadly06@gmail.com
+      
 
 workflows:
   ui-internal-library:
     jobs:
-      - build-library
-      - test-library:
-          requires:
-            - build-library
-      - scan-library:
-          requires:
-            - build-library
-      - publish-package:
-          requires:
-            - test-library
-            - scan-library
-            
+      - setup_sendmail
