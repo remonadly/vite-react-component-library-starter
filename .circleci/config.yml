@@ -58,9 +58,9 @@ jobs:
       - run:
           name: Install Dependencies
           command: npm install
-    - run:
-        name: Authenticate with npm
-        command: echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ~/.npmrc
+      - run:
+          name: Authenticate with npm
+          command: echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ~/.npmrc
       - run:
           name: Publish to npm
           command: npm publish --access public
