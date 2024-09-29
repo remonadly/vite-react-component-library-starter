@@ -52,7 +52,8 @@ jobs:
     # any other sort of scanning could be added here, also Sonarqube server could be integrated and used for code scanning
 
   publish-package:
-    executor: node/default
+    docker:
+      - image: circleci/node:20
     steps:
       - checkout
       - run:
@@ -60,7 +61,7 @@ jobs:
           command: npm install
       - run:
           name: Publish to npm
-          command: npm publish
+          command: npm publish --access public
           environment:
             NPM_TOKEN: $NPM_TOKEN  # we need to ensure NPM_TOKEN is set in CircleCI environment variables
 
