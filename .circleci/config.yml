@@ -102,7 +102,9 @@ jobs:
           command: |
             version=$(node -p "require('./package.json').version") 
             echo "New UI Library version $version has been released. Please update your dependencies." | mailx -s "Notification Email" recipient@example.com
-      
+  # getting the new current version and send notification mail with it
+  # SMTP_Password should be kept as environment variable in CircleCi settings to avoid hardcoding sensitive information
+
 
 workflows:
   ui-internal-library:
