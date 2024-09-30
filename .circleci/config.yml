@@ -35,7 +35,8 @@ jobs:
       - run:
           name: Run tests
           command: npm run test
-    # any other sort of tests could be added here 
+    # any other sort of tests could be added here to avoid having broken components or missing dependency or many other problems.
+
 
   scan-library:
     # scanning
@@ -69,27 +70,54 @@ jobs:
           # if package published with same release number, pipeline will fail and will not allow it.
           # release number should be updated in package.json file
           # A release is triggered by tagging the main branch.
+      - run:
+          name: Send Slack Notification # A slack notification is sent that new library is published
+          command: |
+            curl -X POST -H 'Content-type: application/json' --data '{
+              "text": "A new React library version has been published to npm!"
+            }' $SLACK_WEBHOOK_URL
+          # need to create a slack webhook for the desired slack channel and add it as environment variable to circleci before using here
 
-  setup_sendmail:
+  # to send notification mail stating that new version has been published
+  send_notification_mail:
     docker:
-      - image: ubuntu:20.04
+      - image: alpine:latest
     steps:
       - run:
-          name: Install Sendmail
+          name: Install mailx
           command: |
-            apt-get update && apt-get install -y sendmail && apt-get clean
+            apk add --no-cache heirloom-mailx  
+          # install heirloom-mailx package
       - run:
-          name: Configure Sendmail
+          name: Configure SMTP for mailx # configure SMTP server to be able to send mails
           command: |
-            echo "root: remonadly06@gmail.com" >> /etc/aliases
-            newaliases  # Update aliases
+            echo "set smtp=smtp://smtp.example.com:587" > ~/.mailrc
+            echo "set smtp-auth=login" >> ~/.mailrc
+            echo "set smtp-auth-user=your_email@example.com" >> ~/.mailrc
+            echo "set smtp-auth-password=${SMTP_PASSWORD}" >> ~/.mailrc 
+          # SMTP_Password should be kept as environment variable in CircleCi settings to avoid hardcoding sensitive information
+            echo "set from=your_email@example.com" >> ~/.mailrc
+            echo "set ssl-verify=ignore" >> ~/.mailrc
+            chmod 600 ~/.mailrc
       - run:
-          name: Send Test Email
+          name: Send Email
           command: |
-            echo "Subject: Test Email" | sendmail remonadly06@gmail.com
-      
+            version=$(node -p "require('./package.json').version") 
+            echo "New UI Library version $version has been released. Please update your dependencies." | mailx -s "Notification Email" recipient@example.com
+      # got the new current version and send notification mail with it
 
 workflows:
   ui-internal-library:
     jobs:
-      - setup_sendmail
+      - build-library
+      - test-library:
+          requires:
+            - build-library
+      - scan-library:
+          requires:
+            - build-library
+      - publish-package:
+          requires:
+            - test-library
+            - scan-library
+#     - send_notification_mail
