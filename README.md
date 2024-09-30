@@ -1,5 +1,3 @@
-[![CircleCI](https://dl.circleci.com/status-badge/img/circleci/G8HX4qTKi5asXarNFQdLZA/UDShzr9qHjnNQLiUsC4f6K/tree/main.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/circleci/G8HX4qTKi5asXarNFQdLZA/UDShzr9qHjnNQLiUsC4f6K/tree/main)
-
 # Vite React Component Library Starter
 
 This is a starter template for creating React component libraries using Vite. It includes a robust set of features to help you develop, test, and build your library efficiently.
