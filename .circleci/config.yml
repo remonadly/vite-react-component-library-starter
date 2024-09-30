@@ -95,7 +95,7 @@ jobs:
             echo "set smtp-auth=login" >> ~/.mailrc
             echo "set smtp-auth-user=your_email@example.com" >> ~/.mailrc
             echo "set smtp-auth-password=${SMTP_PASSWORD}" >> ~/.mailrc 
-          # SMTP_Password should be kept as environment variable in CircleCi settings to avoid hardcoding sensitive information
+      # SMTP_Password should be kept as environment variable in CircleCi settings to avoid hardcoding sensitive information
             echo "set from=your_email@example.com" >> ~/.mailrc
             echo "set ssl-verify=ignore" >> ~/.mailrc
             chmod 600 ~/.mailrc
