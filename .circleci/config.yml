@@ -24,6 +24,7 @@ jobs:
           path: ~/artifacts
           destination: node-build
 
+
   test-library:
     # Install node dependencies and run tests
     executor: node/default
@@ -52,6 +53,7 @@ jobs:
             npm audit --audit-level=critical
     # any other sort of scanning could be added here, also Sonarqube server could be integrated and used for code scanning
 
+
   publish-package:
     executor: node/default
     steps:
@@ -70,13 +72,14 @@ jobs:
           # if package published with same release number, pipeline will fail and will not allow it.
           # release number should be updated in package.json file
           # A release is triggered by tagging the main branch.
-      - run:
-          name: Send Slack Notification # A slack notification is sent that new library is published
-          command: |
-            curl -X POST -H 'Content-type: application/json' --data '{
-              "text": "A new React library version has been published to npm!"
-            }' $SLACK_WEBHOOK_URL
+#      - run:
+ #         name: Send Slack Notification # A slack notification is sent that new library is published
+  #        command: |
+   #         curl -X POST -H 'Content-type: application/json' --data '{
+    #          "text": "A new React library version has been published to npm!"
+     #       }' $SLACK_WEBHOOK_URL
           # need to create a slack webhook for the desired slack channel and add it as environment variable to circleci before using here
+
 
   # to send notification mail stating that new version has been published
   send_notification_mail:
