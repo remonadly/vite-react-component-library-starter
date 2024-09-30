@@ -89,8 +89,7 @@ jobs:
             apk add --no-cache heirloom-mailx  
           # install heirloom-mailx package
       - run:
-          name: Configure SMTP for mailx 
-          # configure SMTP server to be able to send mails
+          name: Configure SMTP for mailx
           command: |
             echo "set smtp=smtp://smtp.example.com:587" > ~/.mailrc
             echo "set smtp-auth=login" >> ~/.mailrc
